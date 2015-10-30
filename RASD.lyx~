@@ -1,0 +1,281 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/Progetto ingegneria del software/Logo_Politecnico_Milano.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Politecnico di Milano
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+A.A.
+ 2015-2016
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Software Engineering 2 Project: myTaxiService
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Requirement Analysis and Specification Document
+\end_layout
+
+\begin_layout Standard
+\align center
+Damiano Binaghi, Giovanni Zuretti 
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Subsection
+Purpose
+\end_layout
+
+\begin_layout Standard
+This is the Requirement Analysis and Specification Document (RASD) for the
+ myTaxiService project.
+ The purpose of this document is to collect and describe both functional
+ and non-fuctional requirements of the Taxi Service application which we
+ were asked to design.
+ We will analyze our customers and stakeholders needs in order to design
+ and build the best system which suits those needs.
+ To accomplish this, we will present several kinds of diagrams and models
+ (such as UML class diagram, Use Case diagram, UML Sequence diagram etc.)
+ in order to guide as much as possible developers and programmers, who eventuall
+y will implement the application, through the right steps which will allow
+ to reach our stakeholders goals.
+\end_layout
+
+\begin_layout Subsection
+Legacy System
+\end_layout
+
+\begin_layout Standard
+In this particular case we have no legacy system or previous developed applicati
+ons with which we need to interface our new system.
+ The government of the city, for which we are going to produce this document,
+ asked us to build the application from scratch, because no such thing already
+ existed in the city.
+ Thus, in our case no legacy system exists.
+\end_layout
+
+\begin_layout Subsection
+Scope 
+\end_layout
+
+\begin_layout Standard
+The project aims to create a new application for the management of the taxi
+ service for helping both customers, in order to make them book easily their
+ rides, and taxi drivers, in order to let them manage their work in a more
+ efficient and organized way.
+ Our objective is, thus, to simplify the access to the taxi service for
+ customers and to guarantee a fair management of the taxi queues.
+ Taxis can be booked by any user who either downloaded the application on
+ his/her mobile phone or via browser through the web application.
+ Registration is required in both cases.
+ Users will be notified with the code of the incoming taxi and the waiting
+ time.
+ To avoid waiting, users can book in advance their ride at least 2 hours
+ earlier than the desired time.
+ In such case, a taxi should be allocated to pick up the passenger right
+ away at the desired time in the desired place.
+ Drivers are stored in a queue and they need to be notified whenever the
+ system assign them a new passenger.
+ Drivers can either accept or refuse the assignation.
+ Finally, the manager of the application (presumably the government of the
+ city) should be able to modify the application any time, by adding new
+ features and services through the use of programmatic interfaces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Definitions 
+\end_layout
+
+\begin_layout Standard
+In order to better understand the goals and the requirements of our application,
+ we are going to define some useful terms we are going to use.
+ Here is the list of terms:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Taxi-Data manager: This term addresses the person (or the people) who will
+ be in charge of simply add new taxis to the system or delete previous once.
+ 
+\end_layout
+
+\begin_layout Itemize
+Real-time-booking: This term is used for referring those times when a customer
+ has immediate need of a taxi ride but he did not think of booking it in
+ advance.
+ Therefore, it identifies all those booking instances which need to be served
+ immediately (or as soon as possible) by the system.
+\end_layout
+
+\begin_layout Itemize
+Advance-booking: On the contrary, this term addresses the action of booking
+ in advace a taxi ride.
+\end_layout
+
+\begin_layout Subsection
+Goals
+\end_layout
+
+\begin_layout Standard
+We are now going to list the goals of the myTaxiService application:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Allow registration of a new user to the system.
+\end_layout
+
+\begin_layout Itemize
+Allow log-in to an already registered user.
+\end_layout
+
+\begin_layout Itemize
+Allow insertion of new taxis and deletion of old once by the Taxi-Data manager.
+\end_layout
+
+\begin_layout Itemize
+Allow users to real-time book a taxi ride.
+\end_layout
+
+\begin_layout Itemize
+Allow users to book in advance a taxi ride (advance-booking).
+\end_layout
+
+\begin_layout Itemize
+Send notification to the taxi driver whenever he/she is assigned to a new
+ customer.
+\end_layout
+
+\begin_layout Itemize
+Allow taxi drivers to either accept or refuse the assignation.
+\end_layout
+
+\begin_layout Itemize
+Send notification to the booking-user when his/her request is accepted.
+\end_layout
+
+\begin_layout Itemize
+Allow the development of applications that need to interface with myTaxiService
+ through API.
+\end_layout
+
+\end_body
+\end_document

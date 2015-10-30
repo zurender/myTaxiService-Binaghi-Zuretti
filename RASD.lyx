@@ -252,11 +252,11 @@ Allow insertion of new taxis and deletion of old once by the Taxi-Data manager.
 \end_layout
 
 \begin_layout Itemize
-Allow users to real-time book a taxi ride.
+Allow cutomer to real-time book a taxi ride.
 \end_layout
 
 \begin_layout Itemize
-Allow users to book in advance a taxi ride (advance-booking).
+Allow customer to book in advance a taxi ride (advance-booking).
 \end_layout
 
 \begin_layout Itemize
@@ -269,12 +269,22 @@ Allow taxi drivers to either accept or refuse the assignation.
 \end_layout
 
 \begin_layout Itemize
-Send notification to the booking-user when his/her request is accepted.
+Send notification to the customer when his/her request is accepted.
+\end_layout
+
+\begin_layout Itemize
+Allow taxi drivers to refuse an accepted assignation in case of accidents,
+ problems with the vehicle or other sort of problems.
+\end_layout
+
+\begin_layout Itemize
+In case of accidents, vehicle problems or other sort of problems, send notificat
+ion of the new assigned taxi to the customer.
 \end_layout
 
 \begin_layout Itemize
 Allow the development of applications that need to interface with myTaxiService
- through API.
+ through APIs.
 \end_layout
 
 \end_body
