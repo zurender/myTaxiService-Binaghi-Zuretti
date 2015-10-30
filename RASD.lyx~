@@ -189,12 +189,16 @@ The project aims to create a new application for the management of the taxi
 \end_layout
 
 \begin_layout Subsection
-Definitions 
+Definitions and Acronyms
+\end_layout
+
+\begin_layout Subsubsection
+Definitions
 \end_layout
 
 \begin_layout Standard
 In order to better understand the goals and the requirements of our application,
- we are going to define some useful terms we are going to use.
+ we now define some useful terms we are going to use.
  Here is the list of terms:
 \end_layout
 
@@ -207,8 +211,15 @@ In order to better understand the goals and the requirements of our application,
 
 \begin_layout Itemize
 Taxi-Data manager: This term addresses the person (or the people) who will
- be in charge of simply add new taxis to the system or delete previous once.
- 
+ be in charge of simply add new taxis to the system or delete previous ones.
+\end_layout
+
+\begin_layout Itemize
+Application manager: Super-user who manages all the other kind of users
+ (customers, taxi drivers, taxi-data managers).
+ For example, he can add new taxi-data manager and remove the old ones.
+ We suppose the first of such user is created by programmers during development.
+ Other apllication managers may be created by the application manager himslef.
 \end_layout
 
 \begin_layout Itemize
@@ -222,6 +233,22 @@ Real-time-booking: This term is used for referring those times when a customer
 \begin_layout Itemize
 Advance-booking: On the contrary, this term addresses the action of booking
  in advace a taxi ride.
+\end_layout
+
+\begin_layout Subsubsection
+Acronyms
+\end_layout
+
+\begin_layout Itemize
+RASD: Requirement Analysis and Specification Document.
+\end_layout
+
+\begin_layout Itemize
+DB: DataBase
+\end_layout
+
+\begin_layout Itemize
+API:Application Programming Interface
 \end_layout
 
 \begin_layout Subsection
@@ -248,15 +275,15 @@ Allow log-in to an already registered user.
 \end_layout
 
 \begin_layout Itemize
-Allow insertion of new taxis and deletion of old once by the Taxi-Data manager.
+Allow insertion of new taxis and deletion of old ones by the Taxi-Data manager.
 \end_layout
 
 \begin_layout Itemize
-Allow users to real-time book a taxi ride.
+Allow cutomer to real-time book a taxi ride.
 \end_layout
 
 \begin_layout Itemize
-Allow users to book in advance a taxi ride (advance-booking).
+Allow customer to book in advance a taxi ride (advance-booking).
 \end_layout
 
 \begin_layout Itemize
@@ -269,12 +296,39 @@ Allow taxi drivers to either accept or refuse the assignation.
 \end_layout
 
 \begin_layout Itemize
-Send notification to the booking-user when his/her request is accepted.
+Send notification to the customer when a taxi is assigned to his/her request
+ .
+\end_layout
+
+\begin_layout Itemize
+Allow taxi drivers to refuse an accepted assignation in case of accidents,
+ problems with the vehicle or other sort of problems.
+\end_layout
+
+\begin_layout Itemize
+In case of accidents, vehicle problems or other sort of problems, send notificat
+ion of the new assigned taxi to the customer.
 \end_layout
 
 \begin_layout Itemize
 Allow the development of applications that need to interface with myTaxiService
- through API.
+ through APIs.
+\end_layout
+
+\begin_layout Subsection
+References
+\end_layout
+
+\begin_layout Itemize
+Specification Document: Assignment 1 and 2.pdf.
+\end_layout
+
+\begin_layout Itemize
+IEEE Standard for requirement and specifications (std830-1998)
+\end_layout
+
+\begin_layout Subsection
+Overview
 \end_layout
 
 \end_body
