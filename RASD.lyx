@@ -110,7 +110,17 @@ Requirement Analysis and Specification Document
 
 \begin_layout Standard
 \align center
-Damiano Binaghi, Giovanni Zuretti 
+Damiano Binaghi, Giovanni Zuretti
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+ 
 \begin_inset Newpage newpage
 \end_inset
 
@@ -235,6 +245,11 @@ Advance-booking: On the contrary, this term addresses the action of booking
  in advace a taxi ride.
 \end_layout
 
+\begin_layout Itemize
+Fake-user: a user who booked a taxi and did not canceled his prenotation
+ but do not show up at the appointment.
+\end_layout
+
 \begin_layout Subsubsection
 Acronyms
 \end_layout
@@ -311,6 +326,11 @@ ion of the new assigned taxi to the customer.
 \end_layout
 
 \begin_layout Itemize
+Allow taxi drivers to report fake-users in case a user who has booked a
+ taxi and did not canceled his request does not show up.
+\end_layout
+
+\begin_layout Itemize
 Allow the development of applications that need to interface with myTaxiService
  through APIs.
 \end_layout
@@ -321,7 +341,20 @@ Identifying Stakeholders
 
 \begin_layout Standard
 Our main stakeholder, which is the financial stakeholder, is the government
- of the city who has contacted us in the first place
+ of the city who has contacted us for the development of myTaxiService.
+ The principal needs of this stakeholder are to improve the quality taxi
+ service of the city and to have both users and taxi drivers (which are
+ potential voters in future elections) satisfied with how the application
+ works.
+ However, the government is not the only stakeholder we have.
+ Indeed, customers and taxi drivers are also very important stakeholders
+ of our application.
+ Their needs are low switching costs, i.e.
+ the cost (in terms of money, time, required-learning-time, etc.) of passing
+ from how customers booked their taxis and how drivers managed their work
+ before to the new way introduced by our application should be low, and,
+ in order to be satisfied, they should perceive a sensible improvement in
+ the service.
 \end_layout
 
 \begin_layout Subsection
@@ -355,6 +388,148 @@ The application will be released both as a web application and a mobile
  apllication, but it will provide APIs for future application developement.
  For every type of user, the application will provide a different interface
  in order to best answer the particular needs of the different type of users.
+\end_layout
+
+\begin_layout Subsection
+User characteristics
+\end_layout
+
+\begin_layout Standard
+We expect the user to use our application in order to book in a easy way
+ a taxy ride (in case the user is a customer) or to better manage his daily
+ work (in case the user is a taxi driver).
+ The user will need access to internet both for the web application and
+ the mobile application.
+\end_layout
+
+\begin_layout Subsection
+Constraints
+\end_layout
+
+\begin_layout Subsubsection
+Regulatory Policies
+\end_layout
+
+\begin_layout Standard
+The application will be under two regulatory policies.
+ The former is the privacy policy which will require the customers to accept
+ during registration the personal data treatement document which regulates
+ the privacy in the country in which our city is located, while it will
+ require the taxi drivers to sign a paper module for the same purpose.
+ The latter is the cookie policy which will require users who access the
+ web application to accept the usage of cookies by the system, again according
+ to the policy of the country in which our city is located.
+\end_layout
+
+\begin_layout Subsubsection
+Hardware Limitations
+\end_layout
+
+\begin_layout Standard
+Internet connection is required for the application to work.
+ Devices which are not able to connect to the internet will not be able
+ to run the application.
+\end_layout
+
+\begin_layout Subsection
+Assumption and dependencies
+\end_layout
+
+\begin_layout Itemize
+Personal data inserted by users during registration are correct and complete.
+\end_layout
+
+\begin_layout Itemize
+One user with priveleges of application manager is inserted during development
+ of application and cannot be deleted.
+ 
+\end_layout
+
+\begin_layout Itemize
+Number of taxis is sufficient to satisfy the needs of the customer in an
+ efficient way.
+\end_layout
+
+\begin_layout Itemize
+Number of drivers who refuse an assignation is relatively small within respect
+ to the total number of taxis available (otherwise the system could collapse).
+\end_layout
+
+\begin_layout Itemize
+In case of advance-booking we assume that 10 minutes are enough for the
+ system in order to find a taxi in the queue which will answer the request
+ of the customer and will arrvie on time at the pickup place.
+\end_layout
+
+\begin_layout Itemize
+Notifications are correctly sent and delivered by the system (no notification-lo
+ss).
+\end_layout
+
+\begin_layout Itemize
+Taxi-Data manager inserts only users who are actually taxi drivers.
+\end_layout
+
+\begin_layout Itemize
+Taxi-Data manager will not delete any taxi driver who is still in activity.
+\end_layout
+
+\begin_layout Itemize
+Taxi drivers refuse an already accepted request only when they actually
+ have problems with the vehicle, they make accidents or they encouter other
+ sorts of problem which will not allow them to complete the assigned job.
+ 
+\end_layout
+
+\begin_layout Itemize
+Taxi drivers can not report as fake-users users that actually show up at
+ the appointment.
+\end_layout
+
+\begin_layout Itemize
+There will be a dynamic timeout (based on the position of the taxi) after
+ which, if the taxi does not arrive at the pick-up place and the driver
+ did not signal any kind of problem or accident, the system automatically
+ re-assigns the customer to a new taxi.
+ We assume such timeout is reasonably long and well dimensioned.
+ 
+\end_layout
+
+\begin_layout Itemize
+For security purposes, we assume that prenotation code is correctly delivered
+ to the user without leaking any information.
+\end_layout
+
+\begin_layout Subsection
+Future possible implementation
+\end_layout
+
+\begin_layout Standard
+We will give access to APIs in order to allow possible future implementation
+ of applications which will interface with myTaxiService to deliver other
+ type of services.
+ Examples could be a service of Taxi Sharing, in which two or more people
+ exploit the same taxi ride to reach their destination, or a service of
+ private transportation (similar to already existing services such as BlaBlaCar
+ or Uber), in which there are no longer taxi drivers, but any private citizen
+ can be a taxi driver himself.
+ Other kind of services, which we did not think about, could be implemented.
+ What we will actually do is, as already said, to provide sufficient APIs
+ to allow other people to build any kind of application which could interface
+ with myTaxiService.
+ 
+\end_layout
+
+\begin_layout Section
+Specific Requirements
+\end_layout
+
+\begin_layout Subsection
+Functional Requirements
+\end_layout
+
+\begin_layout Itemize
+
 \end_layout
 
 \end_body
