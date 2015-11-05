@@ -207,8 +207,9 @@ Definitions
 \end_layout
 
 \begin_layout Standard
-In order to better understand the goals and the requirements of our application,
- we now define some useful terms we are going to use.
+In order to better understand who are the actors and which are the goals
+ and the requirements of our application, we now define some useful terms
+ we are going to use.
  Here is the list of terms:
 \end_layout
 
@@ -229,7 +230,7 @@ Application manager: Super-user who manages all the other kind of users
  (customers, taxi drivers, taxi-data managers).
  For example, he can add new taxi-data manager and remove the old ones.
  We suppose the first of such user is created by programmers during development.
- Other apllication managers may be created by the application manager himslef.
+ Other application managers may be created by the application manager himself.
 \end_layout
 
 \begin_layout Itemize
@@ -242,11 +243,11 @@ Real-time-booking: This term is used for referring those times when a customer
 
 \begin_layout Itemize
 Advance-booking: On the contrary, this term addresses the action of booking
- in advace a taxi ride.
+ in advance a taxi ride.
 \end_layout
 
 \begin_layout Itemize
-Fake-user: a user who booked a taxi and did not canceled his prenotation
+Fake-user: a user who booked a taxi and did not canceled his reservation
  but do not show up at the appointment.
 \end_layout
 
@@ -259,11 +260,53 @@ RASD: Requirement Analysis and Specification Document.
 \end_layout
 
 \begin_layout Itemize
-DB: DataBase
+DB: Data Base
 \end_layout
 
 \begin_layout Itemize
 API:Application Programming Interface
+\end_layout
+
+\begin_layout Subsection
+Identifying Actors
+\end_layout
+
+\begin_layout Standard
+We now proceed with the identification of the actors that we will encounter
+ in modeling our system.
+\end_layout
+
+\begin_layout Itemize
+Guest: A person who opens the home page of the web or mobile application.
+ He can choose only to either sign up or log in, if he has already signed
+ up.
+\end_layout
+
+\begin_layout Itemize
+User: A guest who makes the log in becomes a user.
+ A user can modify his personal profile or log out.
+ This actor is a generalization of all the following actors.
+\end_layout
+
+\begin_layout Itemize
+Customer User: It identifies the category of users which are going to exploit
+ the taxi service.
+ Such user can book a taxi ride (either in real-time or in advance).
+\end_layout
+
+\begin_layout Itemize
+Taxi User: It identifies the category of taxi drivers.
+ Such user can accept or refuse an assignation, report fake users and signal
+ accidents.
+\end_layout
+
+\begin_layout Itemize
+Taxi-Data Manager: see section 1.4 for definition.
+\end_layout
+
+\begin_layout Itemize
+Application Manager: see section 1.4 for definition.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -290,44 +333,60 @@ Allow log-in to an already registered user.
 \end_layout
 
 \begin_layout Itemize
-Allow insertion of new taxis and deletion of old ones by the Taxi-Data manager.
+Allow users to modify their personal data.
 \end_layout
 
 \begin_layout Itemize
-Allow cutomer to real-time book a taxi ride.
+Allow insertion of new taxis or new taxi driver by the Taxi-Data manager.
 \end_layout
 
 \begin_layout Itemize
-Allow customer to book in advance a taxi ride (advance-booking).
+Allow Taxi-Data manager to delete taxis that no longer exist or taxi drivers
+ who no longer provide the service.
 \end_layout
 
 \begin_layout Itemize
-Send notification to the taxi driver whenever he/she is assigned to a new
- customer.
+Allow Application manager to manage all other users (insertion of new TaxiData
+ manager, change privileges of some users, etc.)
 \end_layout
 
 \begin_layout Itemize
-Allow taxi drivers to either accept or refuse the assignation.
+Allow customer to real-time book a taxi ride and notify the assigned taxi
+ driver.
 \end_layout
 
 \begin_layout Itemize
-Send notification to the customer when a taxi is assigned to his/her request
- .
+Allow customer to book in advance a taxi ride (advance-booking) and notify
+ the assigned taxi driver.
+\end_layout
+
+\begin_layout Itemize
+Allow fair management of the queues.
+\end_layout
+
+\begin_layout Itemize
+Allow taxi drivers to either accept or refuse the assignation and notify
+ customer (in case of acceptance).
 \end_layout
 
 \begin_layout Itemize
 Allow taxi drivers to refuse an accepted assignation in case of accidents,
- problems with the vehicle or other sort of problems.
+ problems with the vehicle or other sort of problems, and notify customer
+ with the new assignation.
 \end_layout
 
 \begin_layout Itemize
-In case of accidents, vehicle problems or other sort of problems, send notificat
-ion of the new assigned taxi to the customer.
+Allow customer to cancel a reservation.
 \end_layout
 
 \begin_layout Itemize
 Allow taxi drivers to report fake-users in case a user who has booked a
  taxi and did not canceled his request does not show up.
+\end_layout
+
+\begin_layout Itemize
+Do not allow customer to take the wrong taxi or taxi driver to pick up the
+ wrong customer.
 \end_layout
 
 \begin_layout Itemize
@@ -373,6 +432,41 @@ IEEE Standard for requirement and specifications (std830-1998)
 Overview
 \end_layout
 
+\begin_layout Standard
+This document is structured in four parts.
+\end_layout
+
+\begin_layout Itemize
+Section 1: Introduction, which gives a very high level description of what
+ are the goals and objectivesof the application.
+\end_layout
+
+\begin_layout Itemize
+Section 2: Overall description, which focuses on the constraints and the
+ assumptions we had to do in collecting the requirements of our application.
+\end_layout
+
+\begin_layout Itemize
+Section 3: Specific Requirements, which contains the list of requirements,
+ scenarios and the UML diagrams (Use Case, Class diagram, Sequence diagrams
+ and state charts).
+ The aim of this section is to understand the actual functionalities that
+ must be implemented in the application.
+ 
+\end_layout
+
+\begin_layout Itemize
+Section 4: Alloy Modeling, which contains the alloy model which allows us
+ to verify consistency of the proposed solution model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Overall description
 \end_layout
@@ -384,8 +478,8 @@ Product perspective
 \begin_layout Standard
 The application will be released both as a web application and a mobile
  application.
- It will not have to inteface with any legacy system or previous developed
- apllication, but it will provide APIs for future application developement.
+ It will not have to interface with any legacy system or previous developed
+ application, but it will provide APIs for future application development.
  For every type of user, the application will provide a different interface
  in order to best answer the particular needs of the different type of users.
 \end_layout
@@ -413,7 +507,7 @@ Regulatory Policies
 \begin_layout Standard
 The application will be under two regulatory policies.
  The former is the privacy policy which will require the customers to accept
- during registration the personal data treatement document which regulates
+ during registration the personal data treatment document which regulates
  the privacy in the country in which our city is located, while it will
  require the taxi drivers to sign a paper module for the same purpose.
  The latter is the cookie policy which will require users who access the
@@ -436,11 +530,7 @@ Assumption and dependencies
 \end_layout
 
 \begin_layout Itemize
-Personal data inserted by users during registration are correct and complete.
-\end_layout
-
-\begin_layout Itemize
-One user with priveleges of application manager is inserted during development
+One user with privileges of application manager is inserted during development
  of application and cannot be deleted.
  
 \end_layout
@@ -467,7 +557,8 @@ ss).
 \end_layout
 
 \begin_layout Itemize
-Taxi-Data manager inserts only users who are actually taxi drivers.
+Taxi-Data manager inserts only users who are actually taxi drivers and the
+ data are correct.
 \end_layout
 
 \begin_layout Itemize
@@ -476,9 +567,9 @@ Taxi-Data manager will not delete any taxi driver who is still in activity.
 
 \begin_layout Itemize
 Taxi drivers refuse an already accepted request only when they actually
- have problems with the vehicle, they make accidents or they encouter other
+ have problems with the vehicle, they make accidents or they encounter other
  sorts of problem which will not allow them to complete the assigned job.
- 
+ In other words, drivers do not fake accidents.
 \end_layout
 
 \begin_layout Itemize
@@ -496,7 +587,7 @@ There will be a dynamic timeout (based on the position of the taxi) after
 \end_layout
 
 \begin_layout Itemize
-For security purposes, we assume that prenotation code is correctly delivered
+For security purposes, we assume that reservation code is correctly delivered
  to the user without leaking any information.
 \end_layout
 
@@ -520,6 +611,13 @@ We will give access to APIs in order to allow possible future implementation
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Specific Requirements
 \end_layout
@@ -528,8 +626,1766 @@ Specific Requirements
 Functional Requirements
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Subsubsection
+Allow registration of a new user to the system
+\end_layout
 
+\begin_layout Itemize
+The system must provide the sign up functionality.
+\end_layout
+
+\begin_layout Itemize
+The system must send an e-mail to the address specified by the registering
+ user for confirmation.
+\end_layout
+
+\begin_layout Itemize
+When confirmation is received the system must add the new user to the user
+ table in the DB.
+\end_layout
+
+\begin_layout Subsubsection
+Allow log-in to already existing users
+\end_layout
+
+\begin_layout Itemize
+The system must provide an input form in which the user can insert his login
+ data.
+\end_layout
+
+\begin_layout Itemize
+The system must check the correctness of the inserted data.
+ (Right email matched with the right password)
+\end_layout
+
+\begin_layout Itemize
+If log-in data are correct, the system must redirect the user to his personal
+ page.
+\end_layout
+
+\begin_layout Subsubsection
+Allow users to modify his personal information
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface for the modification of personal data
+ by the users.
+\end_layout
+
+\begin_layout Itemize
+The system must update the modified information in the DB.
+\end_layout
+
+\begin_layout Subsubsection
+Allow insertion of new taxis and taxi drivers by the Taxi-Data manager
+\end_layout
+
+\begin_layout Itemize
+The system must provide an input form for the Taxi-Data manager to insert
+ new taxis and taxi drivers.
+\end_layout
+
+\begin_layout Itemize
+In case a new taxi driver is added, the system must generate a unique password
+ and send it to the taxi driver.
+\end_layout
+
+\begin_layout Itemize
+The system must add the new items to the respective tables in the DB.
+\end_layout
+
+\begin_layout Subsubsection
+Allow Taxi-Data manager to delete taxis that no longer exist or taxi drivers
+ who no longer provide the service
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface which allow the deletion of taxis and
+ drivers.
+\end_layout
+
+\begin_layout Itemize
+The system must go in the DB and actually delete the item selected by the
+ Taxi-Data manager.
+\end_layout
+
+\begin_layout Subsubsection
+Allow Application manager to manage all other users (insertion of new TaxiData
+ manager, change privileges of some users, etc.)
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface which allows the Application Manager
+ to modify the data he wants and he is allowed to modify.
+\end_layout
+
+\begin_layout Itemize
+The system must perform the changes on the DB.
+\end_layout
+
+\begin_layout Subsubsection
+Allow customer to real-time book a taxi ride and notify the assigned taxi
+ driver
+\end_layout
+
+\begin_layout Itemize
+The system must provide an input form which allows the customer to insert
+ the information about his position.
+\end_layout
+
+\begin_layout Itemize
+The system must assign from the taxi queue of the zone in which the customer
+ is (or, if no taxis in that zone are free, from the other closest zone)
+ a taxi cab to the request.
+\end_layout
+
+\begin_layout Itemize
+The system must send a notification to the driver of the assigned taxi cab.
+\end_layout
+
+\begin_layout Subsubsection
+Allow customer to book in advance a taxi ride (advance-booking) and notify
+ the assigned taxi driver
+\end_layout
+
+\begin_layout Itemize
+The system must provide an input form which allows the customer to insert
+ information about the starting point, the destination point and the time
+ at which he will need the taxi.
+\end_layout
+
+\begin_layout Itemize
+The system must save this reservation into the advance-booking table of
+ the DB.
+\end_layout
+
+\begin_layout Itemize
+10 minutes before the time specified in the reservation, the system must
+ allocate a taxi to answer the request.
+\end_layout
+
+\begin_layout Itemize
+The system must send a notification to the driver of the allocated taxi
+ cab.
+\end_layout
+
+\begin_layout Subsubsection
+Allow fair management of the queues
+\end_layout
+
+\begin_layout Itemize
+Whenever a driver ends a ride the system must insert him as last in the
+ queue of the zone where he is.
+\end_layout
+
+\begin_layout Itemize
+The system must place as first in the queue of each zone the driver that
+ in that zone has the highest absolute waiting time (i.e.
+ we see waiting time as a score independent from the zone in which the taxis
+ are.
+ Higher the time a driver has been waiting for a new request to arrive,
+ higher his score is, and thus higher the probability for him to be the
+ first of the queue independently from the zone in which he is).
+\end_layout
+
+\begin_layout Itemize
+When a free taxi changes zone the system must automatically find the gps
+ position of the taxi and insert it in the queue of the respective new zone
+ in the right position.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Allow taxi drivers to either accept or refuse the assignation and notify
+ customer (in case of acceptance)
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface to allow the taxi drier to either accept
+ or refuse an assignation.
+\end_layout
+
+\begin_layout Itemize
+The system must send a notification to the customer related to the request
+ when a taxi diver accept the assignation.
+\end_layout
+
+\begin_layout Itemize
+The system must reinsert the driver as last in the queue if the request
+ is rejected.
+\end_layout
+
+\begin_layout Subsubsection
+Allow taxi drivers to refuse an accepted assignation in case of accidents,
+ problems with the vehicle or other sort of problems, and notify customer
+ with the new assignation
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface for the taxi drivers to cancel an assignati
+on in case of accidents or other problems.
+\end_layout
+
+\begin_layout Itemize
+The system must automatically search for a new taxi to answer the request
+ of the customer.
+\end_layout
+
+\begin_layout Itemize
+The system must send a notification to the customer with the code of the
+ new assigned taxi.
+\end_layout
+
+\begin_layout Subsubsection
+Allow customer to cancel a reservation
+\end_layout
+
+\begin_layout Itemize
+The system must enable customers to access their previous reservation.
+\end_layout
+
+\begin_layout Itemize
+The system must allow to cancel previous reservation when no longer needed.
+\end_layout
+
+\begin_layout Subsubsection
+Allow taxi drivers to report fake-users in case a user who has booked a
+ taxi and did not canceled his request does not show up
+\end_layout
+
+\begin_layout Itemize
+The system must provide an interface which allows the drivers to report
+ customers who did not cancel their reservation but they did not show up
+ at the appointment place.
+\end_layout
+
+\begin_layout Itemize
+The system will need a function that keep counts of how many times a user
+ is reported as fake.
+\end_layout
+
+\begin_layout Itemize
+After a certain fixed threshold the system must notify the application manager
+ who will take the appropriate countermeasures.
+\end_layout
+
+\begin_layout Itemize
+The system will automatically reinsert the driver into the queue as if the
+ assignment was never created.
+\end_layout
+
+\begin_layout Subsubsection
+Do not allow customer to take the wrong taxi or taxi driver to pick up the
+ wrong customer
+\end_layout
+
+\begin_layout Itemize
+With the notification of assignation the system must also send to the customer
+ a unique code associated to the taxi which is going to provide the ride.
+\end_layout
+
+\begin_layout Itemize
+The system must allow taxi driver to verify the correctness of the code.
+\end_layout
+
+\begin_layout Itemize
+The system must check that the code inserted by the taxi driver matches
+ the code generated by the system itself for that particular ride.
+\end_layout
+
+\begin_layout Subsubsection
+Allow the development of applications that need to interface with myTaxiService
+ through APIs
+\end_layout
+
+\begin_layout Itemize
+The system must provide programmatic interfaces to allow other application
+ to access user data (only read, no modification) and user's functionalities
+ (e.g booking taxis).
+\end_layout
+
+\begin_layout Itemize
+The system must provide programmatic interfaces to allow users to use the
+ same log-in credentials in other systems which interface with our system.
+\end_layout
+
+\begin_layout Itemize
+The system must provide programmatic interfaces to allow other applications
+ to access the list of reservation (only read, no modification)
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Non-functional requirements
+\end_layout
+
+\begin_layout Subsubsection
+User Interface
+\end_layout
+
+\begin_layout Standard
+We present now some mocks to give an idea of how the web application and
+ the mobile application will be structured.
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.1 
+\begin_inset space \space{}
+\end_inset
+
+Web application Homepage
+\end_layout
+
+\begin_layout Standard
+In the home page users can either sign up or log in.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 15.57.08.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.2
+\begin_inset space \space{}
+\end_inset
+
+Web application Customer Homepage
+\end_layout
+
+\begin_layout Standard
+This mock shows the page the system loads for the customer after the log
+ in.
+ 
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-31 alle 10.43.38 copia.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.3
+\begin_inset space \space{}
+\end_inset
+
+ Web application Advance Booking specifications
+\end_layout
+
+\begin_layout Standard
+In this mock we show how the navigation proceeds in case of Advance-booking.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-31 alle 11.09.18.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.4 
+\begin_inset space \space{}
+\end_inset
+
+Web application Waiting Page after Request Acceptance
+\end_layout
+
+\begin_layout Standard
+This mock shows the page the customer faces when his request is accepted.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-31 alle 11.15.41.png
+	scale 35
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.5 
+\begin_inset space \space{}
+\end_inset
+
+Taxi-Data manager Web Application Homepage
+\end_layout
+
+\begin_layout Standard
+In this mock we show how it is supposed to appear the homepage of a Taxi-Data
+ manager user.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-31 alle 11.23.34.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.6 
+\begin_inset space \space{}
+\end_inset
+
+Login in the Mobile Application
+\end_layout
+
+\begin_layout Standard
+The following mock represents the Login page, which is also the home page
+ of the mobile application.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 17.29.25.png
+	scale 35
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.7
+\begin_inset space \space{}
+\end_inset
+
+Registration in the Mobile Application
+\end_layout
+
+\begin_layout Standard
+This mock shows the registration form for the Mobile Application.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 17.34.14.png
+	scale 35
+	BoundingBox 0bp 0bp 262bp 496bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.8 
+\begin_inset space \space{}
+\end_inset
+
+Advance-Booking in the Mobile Application (Customer side)
+\end_layout
+
+\begin_layout Standard
+With the next three mocks we will show what a customer should see when he
+ books in advance.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 19.11.12 copia copia.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 21.46.58 copia.png
+	scale 29.5
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 22.25.11.png
+	scale 33
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.2.1.9 
+\begin_inset space \space{}
+\end_inset
+
+Taxi driver management in Mobile Application
+\end_layout
+
+\begin_layout Standard
+We finally show some mocks that will help to understand how drivers can
+ manage their work on their mobile phone thanks to myTaxiService.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-31 alle 12.00.35.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 21.58.10.png
+	scale 29.5
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/Schermata 2015-10-30 alle 22.12.12.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+API Interfaces
+\end_layout
+
+\begin_layout Standard
+For retrieving the position of taxis, the time needed to reach a customer,
+ the position of a customer etc.
+ through GPS, the application will need to interface with the Google Maps
+ APIs.
+ These are open APIs and the most common used for providing services of
+ position retrieval and for previsions on the time duration of a given itenerary.
+ Furthermore, the system will need to interface with a Data Base Management
+ System which is now not specified, because it will be chosen at development
+ time.
+ 
+\end_layout
+
+\begin_layout Subsection
+Scenarios
+\end_layout
+
+\begin_layout Standard
+We are now going to list some scenarios which could help in getting a better
+ idea of how the application is going to work.
+\end_layout
+
+\begin_layout Subsubsection
+First Scenario
+\end_layout
+
+\begin_layout Standard
+It is Friday (16th of October), and on Sunday (18th of October) Ms.
+ White needs to go to the airport.
+ She does not have a car and no one of her friends can help her to get to
+ the airport.
+ However she heard about the new application for taxi service the city governmen
+t has launch in the previous week, and, though she is not an abitual taxi
+ customer, she is willing to try this new service.
+ Therefore she downloads the application on her mobile phone, and, after
+ the installation, she enters the home page.
+ Here she can access the registratin form, in which she can fill in her
+ data.
+ After submission and confirmation she is ready to log in and start to use
+ the application.
+ After the log in procedure, she can access to advance reservation thanks
+ to the curtain menu on the left.
+ Therefore, she acces the curtain menu, she touches 
+\begin_inset Quotes eld
+\end_inset
+
+Advance booking
+\begin_inset Quotes erd
+\end_inset
+
+, she activate the GPS of her smartphone, and she fill in the form for booking.
+ She sets as starting point her home (which her current position), as destinatio
+n the airport, the date at the 18th of October and the time at 8.00 am.
+ She touch the button 
+\begin_inset Quotes eld
+\end_inset
+
+Book
+\begin_inset Quotes erd
+\end_inset
+
+ and then she can log out from the application.
+ On the 18th of October, Damian, a taxi driver (taxi plate: DB 711 BP),
+ is notified on his phone at 7.50 am that Ms.
+ White has booked a taxi for 8.00 am and he accepts the request.
+ Ms White is immediately notified that the taxi with plate DB 711 BP is
+ coming to pick her up and that the code of her request is L0V3.
+ When the taxi arrives she gives her code to Damian who enters the code
+ in the confirmation form.
+ Then they leave for the airport.
+ Once arrived at the airport, Damian push the 
+\begin_inset Quotes eld
+\end_inset
+
+end ride
+\begin_inset Quotes erd
+\end_inset
+
+ button and gets his money.
+\end_layout
+
+\begin_layout Subsubsection
+Second Scenario
+\end_layout
+
+\begin_layout Standard
+Joe Villain is a taxi driver who wants to access the privileges of the new
+ myTaxiService application in order to better organize his work.
+ He has to compile a paper form and submit it to the municipal office which
+ manage the taxi drivers in the city.
+ Here one of the office worker, John Beary, who can access the system as
+ a Taxi-Data manager, receives the paper document with all the information
+ correctly compiled.
+ He then accesses the system with his credential, fill in the form to add
+ a new taxi driver, submit such form and log out.
+ A confirmation mail with the password to acces the system is sent to Joe
+ who can now start to use myTaxiService to manage his work.
+\end_layout
+
+\begin_layout Subsubsection
+Third Scenario
+\end_layout
+
+\begin_layout Standard
+Mr.
+ Little Jack spent the night at a music concert, and now he needs to go
+ back home.
+ However, his physical conditions after such event do not allow him to take
+ the car to drive back safely to home.
+ Luckly, just that afternoon, he downloaded myTaxiService, thus he does
+ not need to drive himself home.
+ He just need to book a taxi right away and he will be safely home.
+ Thus he access the application from his smartphone, he touches on the 
+\begin_inset Quotes eld
+\end_inset
+
+instant taxi call
+\begin_inset Quotes erd
+\end_inset
+
+ button, and he waits until a taxi confirms his request and comes to pick
+ him up to bring him home.
+\end_layout
+
+\begin_layout Subsubsection
+Fourth Scenario
+\end_layout
+
+\begin_layout Standard
+Matt Knoll is a young taxi driver who likes to drive fast in order to pick
+ as many clients as possible.
+ He is waiting for a new request to come, when the system contacts him and
+ asks him if he could pick up the customer Ann Calves in a street which
+ is not that far from the place where he is.
+ He accepts of course, but he is too confident, and by passing over a red
+ light, he ends up hitting in the back another car, so that he is forced
+ to cancel the previous confirmation.
+ Thus, he access the application on his mobile, and the window for the pick-up
+ confirmation is shown to him.
+ He presses the button 
+\begin_inset Quotes eld
+\end_inset
+
+I have troubles
+\begin_inset Quotes erd
+\end_inset
+
+, and the request of Ann is automatically reassigned to another taxi driver.
+\end_layout
+
+\begin_layout Subsubsection
+Fifth Scenario
+\end_layout
+
+\begin_layout Standard
+Lorence Trill is a taxi driver who gets contacted by myTaxiService to pick
+ up Mr.
+ Jam Pi at the train station of the city and bring him to the theater.
+ Lorence arrives at the station and start looking for the man he needs pick
+ up.
+ There are many taxis and many cars so it might be possible that the man
+ who sent the request could have trouble in finding him.
+ However after 30 minutes no one has shown up yet, and an angry Lorence
+ is obliged to observe that maybe someone put up joke and Mr.
+ Jam Pi probably does not even exist.
+ He access the application on his mobile, and, in the pick-up confirmation
+ window, he touches the button 
+\begin_inset Quotes eld
+\end_inset
+
+signal as fake
+\begin_inset Quotes erd
+\end_inset
+
+.
+ He then re-enters the queue as if Mr.
+ Jam Pi never reserved for a ride.
+\end_layout
+
+\begin_layout Subsubsection
+Sixth Scenario
+\end_layout
+
+\begin_layout Standard
+Mr.
+ Andrew Josfate is a very smart and inventive man.
+ When he found out about myTaxiService, he had the idea of implementing
+ a new application for Taxi Sharing, which will allow more customers who
+ are willing to go to the same place to share the same ride and divide the
+ costs.
+ However he does not want to build a new application from scratch and he
+ would like to interface with myTaxiService to use some of its features.
+ Luckly, myTaxiService provides APIs to let othe applications to interface
+ with itself.
+ Therefore, Mr.
+ Josfate accesses the documentation about myTaxyService and finds out that
+ it provides access to user data and functionalities, it allows to reuse
+ the login procedure and to access the table of the reservations.
+ Mr.
+ Josfate is very happy because he will just need to implement the system
+ of communication between users and his application will be ready to run
+ and make him rich.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+UML Models
+\end_layout
+
+\begin_layout Subsubsection
+Use Case Diagram
+\end_layout
+
+\begin_layout Standard
+We present now the Use Case Diagram for the whole application derived from
+ previous stated requirements and from the described scenarios.
+ In the next sections we are going to explain more in details the Use Cases
+ and the flow of events associated to them.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/UseCaseDiagram (1).jpeg
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+We are now going to provide a more detailed description of the most significant
+ use cases.
+ As a disclaimer, whenever we will use words such as 
+\begin_inset Quotes eld
+\end_inset
+
+button
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+input form
+\begin_inset Quotes erd
+\end_inset
+
+ we are not making any design decision.
+ We will use them in order to give a more clear vision of how the system
+ could work.
+\end_layout
+
+\begin_layout Paragraph
+3.4.1.1 Register Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Register
+\end_layout
+
+\begin_layout Itemize
+Actors: Guest
+\end_layout
+
+\begin_layout Itemize
+Entry Condition: The guest is not already registered to the application.
+\end_layout
+
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The guest accesses the Homepage.
+\end_layout
+
+\begin_layout Itemize
+The guest clicks the 
+\begin_inset Quotes eld
+\end_inset
+
+Registration
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Itemize
+The guest fills in a form in which he has to insert: his last name, his
+ first name, his email address and a password.
+\end_layout
+
+\begin_layout Itemize
+The guest clicks on 
+\begin_inset Quotes eld
+\end_inset
+
+Register
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The system shows to the guest the 
+\begin_inset Quotes eld
+\end_inset
+
+Waiting for Confirmation Page
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+When the guest confirms registration the system redirects him to his personal
+ homepage.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Condition: Registration is successful.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: 
+\end_layout
+
+\begin_layout Paragraph
+3.4.1.2 Log in Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Log in
+\end_layout
+
+\begin_layout Itemize
+Actors: Guest
+\end_layout
+
+\begin_layout Itemize
+Entry Condition: The guest is already registered to the application.
+\end_layout
+
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The guest accesses the Homepage.
+\end_layout
+
+\begin_layout Itemize
+The guest fill in the login form with his email and password.
+\end_layout
+
+\begin_layout Itemize
+The guest clicks the 
+\begin_inset Quotes eld
+\end_inset
+
+Log in
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Itemize
+The system checks if the data matches an already registered account information.
+\end_layout
+
+\begin_layout Itemize
+The system let the guest to enter in his profile (Guest becomes User).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Condition: The system shows to the User his personal Homepage.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: The Guest fills in the form with wrong information, therefore
+ the system shows an error message.
+\end_layout
+
+\begin_layout Paragraph
+3.4.1.3 Advance Booking Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Advance Booking
+\end_layout
+
+\begin_layout Itemize
+Actors: Customer user
+\end_layout
+
+\begin_layout Itemize
+Entry Condition: Customer user has successfully logged in.
+\end_layout
+
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Customer user clicks on 
+\begin_inset Quotes eld
+\end_inset
+
+Advance Booking
+\begin_inset Quotes erd
+\end_inset
+
+ in his personal Homepage.
+\end_layout
+
+\begin_layout Itemize
+The system shows to the user a form for the reservation.
+\end_layout
+
+\begin_layout Itemize
+The Customer user fills in the form with information about the place, the
+ date and the time on which he will need a taxi.
+\end_layout
+
+\begin_layout Itemize
+The Customers click on the 
+\begin_inset Quotes eld
+\end_inset
+
+Confirmation
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Itemize
+The systems shows to the user that the operation was successful.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Conditions: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The system redirect the Customer user to his personal Homepage.
+\end_layout
+
+\begin_layout Itemize
+10 minutes before the reservation time the system finds a taxi and send
+ a notification to the Customer user.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exceptions: The user does not fill in all the mandatory in fields; in such
+ case the system shows an error and does not complete the operation.
+\end_layout
+
+\begin_layout Itemize
+Notes: The Real-time Booking case is just the same, the only differences
+ is that date and time are not specified by the user and that as exit condition
+ we should add the fact that the system starts searching for a taxi to answer
+ the request.
+\end_layout
+
+\begin_layout Paragraph
+3.4.1.4 Receive Request Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Receive Request
+\end_layout
+
+\begin_layout Itemize
+Actors: Taxi user
+\end_layout
+
+\begin_layout Itemize
+Entry Conditions: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A customer user has booked a taxi and the system has assigned him one.
+\end_layout
+
+\begin_layout Itemize
+The Taxi user is logged in.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Taxi user is notified by the system that he was assigned to a new customer.
+\end_layout
+
+\begin_layout Itemize
+The system propose to the Taxi user the choice of either accepting or refusing
+ the job.
+\end_layout
+
+\begin_layout Itemize
+The Taxi user accepts or refuse the assignation.
+\end_layout
+
+\begin_layout Itemize
+In case of acceptance, the system will show to the Taxi user the page in
+ which he will be able to insert the verification code sent to the Customer
+ User.
+\end_layout
+
+\begin_layout Itemize
+In case of refuse, the system will redirect the Taxi user to his personal
+ Homepage.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Conditions: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In case of acceptance the system sends a notification with the taxi plate
+ and the verification code to the user.
+ 
+\end_layout
+
+\begin_layout Itemize
+In case of refuse the system will put the Taxi user as last in the queue
+ of the zone in which the taxi user is.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+3.4.1.5 Insert Code and Start Ride Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Insert Code and Start Ride
+\end_layout
+
+\begin_layout Itemize
+Actors: Taxi user
+\end_layout
+
+\begin_layout Itemize
+Entry Conditions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Taxi user has accepted a request of a Customer user.
+\end_layout
+
+\begin_layout Itemize
+The Customer user has provided the verification code.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Taxi user insert the verification code.
+\end_layout
+
+\begin_layout Itemize
+The Taxi user clicks the 
+\begin_inset Quotes eld
+\end_inset
+
+Verify
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Itemize
+The system verifies that the code matching is correct.
+\end_layout
+
+\begin_layout Itemize
+The system sends confirmation to the Taxi user.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Condition: The Taxi user starts the ride.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: Verification code does not match, therefore the Taxi user must
+ look for the right customer.
+\end_layout
+
+\begin_layout Paragraph
+3.4.1.6 Insert Taxi Data Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Insert Taxi Data 
+\end_layout
+
+\begin_layout Itemize
+Actors: Taxi data manager
+\end_layout
+
+\begin_layout Itemize
+Entry Condition: The Taxi data manager has successfully logged in.
+\end_layout
+
+\begin_layout Itemize
+Flow of Events:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Taxi data manager fill in the form for adding a new taxi to the system.
+\end_layout
+
+\begin_layout Itemize
+The Taxi data manager clicks on the 
+\begin_inset Quotes eld
+\end_inset
+
+Register
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Itemize
+The new taxi driver is inserted in the system which shows confirmation of
+ success to the Taxi data manager.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Condition: The system redirects the Taxi data manager to his personal
+ Homepage.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: The Taxi data manager does not fill all the mandatory fields.
+ In such case, the system will report the error.
+\end_layout
+
+\begin_layout Paragraph
+3.4..1.7 Get User Interface Use Case
+\end_layout
+
+\begin_layout Itemize
+Name: Get User Interface
+\end_layout
+
+\begin_layout Itemize
+Actors: External System
+\end_layout
+
+\begin_layout Itemize
+Entry Conditions: The external system wants to use one or more functionalities
+ of a user and asks the access to our system.
+\end_layout
+
+\begin_layout Itemize
+Flow of Events: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Our system must require the log in of the user of which the external system
+ wants to access the functionalities.
+\end_layout
+
+\begin_layout Itemize
+The external system must successfully log in to our system.
+\end_layout
+
+\begin_layout Itemize
+Our system must provide the right interfaces to guarantee access to user's
+ functionalities.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Exit Condition: The external system is able to use the requested functionalities.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: Log in fails, in such case our system must not allow access
+ to user's functionalities.
+\end_layout
+
+\begin_layout Subsubsection
+Class Diagram
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/ClassDiagram (1).jpg
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Sequence Diagrams
+\end_layout
+
+\begin_layout Paragraph
+3.4.3.1 Registration
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/Registration (1).jpg
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.4.3.2 Log in
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/login.jpg
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.4.3.3 Real-time Booking
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/real time booking.jpg
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.4.3.4 Advance Booking
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/advance booking (1).jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.4.3.5 Taxi Data Management
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/taxi data management (1).jpg
+	scale 60
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+State Charts
+\end_layout
+
+\begin_layout Paragraph
+3.4.4.1 Taxi Driver Class
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/state1.jpg
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.4.4.2 Advance Booking Class
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Downloads/StatechartDiagram2.jpg
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Alloy Modeling
+\end_layout
+
+\begin_layout Standard
+We have used Alloy Analyzer to specify the properties of our application
+ starting from the Class Diagram.
+ We are now going to present the alloy code and some of the instances obtained
+ through the show predicates.
+\end_layout
+
+\begin_layout Subsection
+Alloy Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycode1.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycode2.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycode3.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycode4.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycode5.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/code6.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here we present the results of the analysis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/immagini progetto/alloycazzofunziona.jpg
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Generated Worlds
+\end_layout
+
+\begin_layout Subsubsection
+General World
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/alloy6.png
+	scale 35
+	rotateAngle 270
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Queue World
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/Giovani/Desktop/alloy4.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Used Tools
+\end_layout
+
+\begin_layout Itemize
+LyX (http://www.lyx.org/): to redirect and format this document.
+\end_layout
+
+\begin_layout Itemize
+Star UML (staruml.io) : to draw Use Case Diagram, Class Diagrams, Sequence
+ Diagrams, State Charts.
+\end_layout
+
+\begin_layout Itemize
+Alloy analyzer (http://alloy.mit.edu/alloy/): to prove consistency of our
+ model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hours spent for redacting the document:
+\end_layout
+
+\begin_layout Itemize
+Damiano Binaghi: 35h
+\end_layout
+
+\begin_layout Itemize
+Giovanni Zuretti:35h
 \end_layout
 
 \end_body
