@@ -1,0 +1,13 @@
+Work Hours
+
+RASD
+
+Damiano Binaghi: 35
+Giovanni Zuretti: 35
+
+Design Document
+
+Damiano Binaghi: 33
+Giovanni Zuretti: 33
+
+Total: 68
